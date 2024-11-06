@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Expense Tracker</h1>
+    
+    <form action="/add" method="POST" id="expense-form">
+        <input type="text" name="description" placeholder="Description" required>
+        <input type="number" step="0.01" name="amount" placeholder="Amount" required>
+        <input type="text" name="category" placeholder="Category" required>
+        <button type="submit">Add Expense</button>
+    </form>
+    
+    <h2>Expenses</h2>
+    <ul id="expense-list">
+        {% for expense in expenses %}
+            <li>
+                {{ expense[1] }} - ${{ expense[2] }} - {{ expense[3] }}
+                <form action="/delete/{{ expense[0] }}" method="POST" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Spending by Category</h2>
+    <canvas id="expenseChart" width="400" height="400"></canvas>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
